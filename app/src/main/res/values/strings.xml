@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">StartUP</string>
+    <string name="Information">ABOUT THE EVENT</string>
+    <string name="Schedule">EVENT SCHEDULE</string>
+    <string name="Speakers">EVENT SPEAKERS</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Ticket number is 9 symbols</string>
+</resources>

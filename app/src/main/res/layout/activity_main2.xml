@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main2Activity">
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="71dp"
+        android:layout_height="72dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/red_border_circle"
+        android:padding="1dp"
+        android:src="@drawable/logo_40x40"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.841"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="152dp" />
+
+    <Button
+        android:id="@+id/buttonInfo"
+        android:layout_width="300dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/main_button_border"
+        android:drawableStart="@drawable/ic_information"
+        android:drawableLeft="@drawable/ic_information"
+        android:gravity="center"
+        android:paddingStart="10dip"
+        android:paddingLeft="10dip"
+        android:paddingEnd="20dip"
+        android:paddingRight="20dip"
+        android:text="@string/Information"
+        android:textAllCaps="false"
+        android:textColor="#595959"
+        android:textSize="23sp"
+        app:fontFamily="@font/calibril"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSpeakers"
+        android:layout_width="300dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/main_button_border"
+        android:drawableStart="@drawable/ic_speakers"
+        android:drawableLeft="@drawable/ic_speakers"
+        android:drawablePadding="2dip"
+        android:gravity="center"
+        android:paddingStart="10dip"
+        android:paddingLeft="10dip"
+        android:paddingEnd="37dip"
+        android:paddingRight="37dip"
+        android:text="@string/Speakers"
+        android:textColor="#595959"
+        android:textSize="23sp"
+        app:fontFamily="@font/calibril"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonInfo"
+        app:layout_constraintVertical_bias="0.06999999" />
+
+    <Button
+        android:id="@+id/buttonSchedule"
+        android:layout_width="300dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/main_button_border"
+        android:drawableStart="@drawable/ic_schedule"
+        android:drawableLeft="@drawable/ic_schedule"
+        android:gravity="center"
+        android:paddingStart="12dip"
+        android:paddingLeft="12dip"
+        android:paddingEnd="30dip"
+        android:paddingRight="30dip"
+        android:text="@string/Schedule"
+        android:textColor="#595959"
+        android:textSize="23sp"
+        app:fontFamily="@font/calibril"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSpeakers"
+        app:layout_constraintVertical_bias="0.19" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="330dp" />
+
+</android.support.constraint.ConstraintLayout>
+
