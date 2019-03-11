@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.startup.Main2Activity;

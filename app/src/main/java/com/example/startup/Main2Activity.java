@@ -6,12 +6,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Main2Activity extends AppCompatActivity {
 
+    private ImageButton eventInformation;
     private Button InfoButton;
     private Button SpeakersButton;
     private Button ScheduleButton;
@@ -30,15 +32,23 @@ public class Main2Activity extends AppCompatActivity {
         ScheduleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, LoginForm.class);
+                Intent i = new Intent(Main2Activity.this, Workshops.class);
                 startActivity(i);
+            }
+        });
+        eventInformation = findViewById(R.id.eventInformation);
+        eventInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAbout();
             }
         });
         InfoButton = findViewById(R.id.buttonInfo);
         InfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAbout();
+                Intent i = new Intent(Main2Activity.this, LoginForm.class);
+                startActivity(i);
             }
         });
         SpeakersButton = findViewById(R.id.buttonSpeakers);

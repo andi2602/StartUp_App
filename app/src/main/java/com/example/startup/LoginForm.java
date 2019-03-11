@@ -1,5 +1,9 @@
 package com.example.startup;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,14 +13,21 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.klinker.android.link_builder.Link;
+import com.klinker.android.link_builder.LinkBuilder;
 
 public class LoginForm extends AppCompatActivity {
 
     private EditText inputName, inputEmail, inputPassword;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
+    private CardView cardview;
+    private CheckBox checkBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,21 +38,56 @@ public class LoginForm extends AppCompatActivity {
         inputName = findViewById(R.id.input_name);
         inputEmail = findViewById(R.id.input_email);
         inputPassword = findViewById(R.id.input_password);
+        cardview = findViewById(R.id.cardView);
+        checkBox = findViewById(R.id.privacy);
+
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
 
 
+        cardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitForm();
+            }
+        });
+        TextView demoText = findViewById(R.id.privacy);
+
+// create the link builder object add the link rule
+        LinkBuilder.on(demoText)
+                .addLink(link)
+                .build(); // create the clickable links
     }
+    private void submitForm() {
+        if (!validateName()) {
+            return;
+        }
 
+        if (!validateEmail()) {
+            return;
+        }
 
+        if (!validatePassword()) {
+            return;
+        }
+        if (!checkBox.isChecked())
+        {
+            return;
+        }
+
+        Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LoginForm.this, Workshops.class);
+        startActivity(intent);
+    }
     private boolean validateName() {
         if (inputName.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_name));
             requestFocus(inputName);
             return false;
-        } else {
+        }
+        else {
             inputLayoutName.setErrorEnabled(false);
         }
 
@@ -55,7 +101,8 @@ public class LoginForm extends AppCompatActivity {
             inputLayoutEmail.setError(getString(R.string.err_msg_email));
             requestFocus(inputEmail);
             return false;
-        } else {
+        }
+        else {
             inputLayoutEmail.setErrorEnabled(false);
         }
 
@@ -67,7 +114,8 @@ public class LoginForm extends AppCompatActivity {
             inputLayoutPassword.setError(getString(R.string.err_msg_password));
             requestFocus(inputPassword);
             return false;
-        } else {
+        }
+        else {
             inputLayoutPassword.setErrorEnabled(false);
         }
 
@@ -84,6 +132,14 @@ public class LoginForm extends AppCompatActivity {
         }
     }
 
+    public void checkboxChecked(View view) {
+
+        CheckBox checkBox = (CheckBox)view;
+        if (checkBox.isChecked())
+        {
+            return;
+        }
+    }
     private class MyTextWatcher implements TextWatcher {
 
         private View view;
@@ -111,5 +167,34 @@ public class LoginForm extends AppCompatActivity {
                     break;
             }
         }
+    }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    // Create the link rule to set what text should be linked.
+// can use a specific string or a regex pattern
+    Link link = new Link("terms")
+            .setTextColor(Color.parseColor("#79FCEF"))                  // optional, defaults to holo blue
+            .setTextColorOfHighlightedLink(Color.parseColor("#0D3D0C")) // optional, defaults to holo blue
+            .setHighlightAlpha(.4f)                                     // optional, defaults to .15f
+            .setUnderlined(false)                                       // optional, defaults to true
+            .setBold(true)                                              // optional, defaults to false
+            .setOnLongClickListener(new Link.OnLongClickListener() {
+                @Override
+                public void onLongClick(String clickedText) {
+                    openLink("https://www.facebook.com/");
+                }
+            })
+            .setOnClickListener(new Link.OnClickListener() {
+                @Override
+                public void onClick(String clickedText) {
+                    // single clicked
+                    openLink("https://www.facebook.com/");
+                }
+            });
+
+    private void openLink(String link) {
+        startActivity(new Intent(LoginForm.this,Terms.class));
     }
 }

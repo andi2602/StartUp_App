@@ -34,6 +34,7 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
         return new RecyclerViewHolder(v);
     }
 
+
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         Teacher currentTeacher = teachers.get(position);
@@ -42,7 +43,7 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
         holder.dateTextView.setText(getDateToday());
         Picasso.with(mContext)
                 .load(currentTeacher.getImageUrl())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.loginlogo2)
                 .fit()
                 .centerCrop()
                 .into(holder.teacherImageView);
@@ -59,7 +60,7 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
         public TextView nameTextView,descriptionTextView,dateTextView;
         public ImageView teacherImageView;
 
-        public RecyclerViewHolder(View itemView) {
+        public RecyclerViewHolder( View itemView) {
             super(itemView);
             nameTextView =itemView.findViewById ( R.id.nameTextView );
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);

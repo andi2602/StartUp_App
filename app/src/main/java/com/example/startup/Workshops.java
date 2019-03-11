@@ -1,0 +1,112 @@
+package com.example.startup;
+
+import android.app.TaskStackBuilder;
+import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Workshops extends AppCompatActivity implements RecyclerAdapterWorkshops.OnItemClickListener{
+
+    private RecyclerView mRecyclerView;
+    private RecyclerAdapterWorkshops mAdapter;
+    private DatabaseReference mDatabaseRef;
+    private ValueEventListener mDBListener;
+    private List<Workshops_class> mWorkshops;
+
+    private void openDetailActivity(String[] data) {
+        Intent intent = new Intent(this, SpeakersInformation.class);
+        intent.putExtra("NAME_KEY", data[0]);
+        intent.putExtra("DESCRIPTION_KEY", data[1]);
+        intent.putExtra("IMAGE_KEY", data[2]);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_workshops);
+
+        mRecyclerView = findViewById(R.id.mRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mWorkshops = new ArrayList<>();
+        mAdapter = new RecyclerAdapterWorkshops(Workshops.this, mWorkshops);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(Workshops.this);
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("workshops_uploads");
+
+        mDBListener = mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                mWorkshops.clear();
+
+                for (DataSnapshot workshopSnapshot : dataSnapshot.getChildren()) {
+                    Workshops_class upload = workshopSnapshot.getValue(Workshops_class.class);
+                    upload.setKey(workshopSnapshot.getKey());
+                    mWorkshops.add(upload);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(Workshops.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void onItemClick(int position) {
+        Workshops_class clickedWorkshop = mWorkshops.get(position);
+        String[] workshopData = {clickedWorkshop.getTopic(), clickedWorkshop.getFacilitator(), clickedWorkshop.getCompany(),clickedWorkshop.getTime(),clickedWorkshop.getCurrentlyEnrolled(),clickedWorkshop.getCapacityOfWorkshop()};
+        openDetailActivity(workshopData);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                    // This activity is NOT part of this app's task, so create a new task
+                    // when navigating up, with a synthesized back stack.
+                    TaskStackBuilder.create(this)
+                            // Add all of this activity's parents to the back stack
+                            .addNextIntentWithParentStack(upIntent)
+                            // Navigate up to the closest parent
+                            .startActivities();
+                } else {
+                    // This activity is part of this app's task, so simply
+                    // navigate up to the logical parent activity.
+                    NavUtils.navigateUpTo(this, upIntent);
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabaseRef.removeEventListener(mDBListener);
+    }
+}

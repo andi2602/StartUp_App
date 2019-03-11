@@ -1,8 +1,13 @@
 package com.example.startup;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +25,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnItemClickListener
 {
@@ -42,7 +46,11 @@ public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isNetworkAvailable())
+        {buildDialog(Speakers.this).show(); }
+        else{
         setContentView(R.layout.activity_speakers);
+
 
         mRecyclerView = findViewById(R.id.mRecyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -76,7 +84,7 @@ public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnIte
             }
         });
 
-    }
+    }}
 
     public void onItemClick(int position) {
         Teacher clickedTeacher = mTeachers.get(position);
@@ -129,9 +137,33 @@ public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnIte
         }
         return super.onOptionsItemSelected(item);
     }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+    public AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Exit");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                finish();
+            }
+        });
+
+        return builder;
+    }
 
     protected void onDestroy() {
         super.onDestroy();
+        if (null != mDatabaseRef)
         mDatabaseRef.removeEventListener(mDBListener);
     }
 }

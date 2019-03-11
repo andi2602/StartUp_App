@@ -13,11 +13,13 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/teacherImageView"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:padding="5dp"
+            card_view:civ_border_color="@color/colorPrimary"
+            card_view:civ_border_width="4dp"
             android:src="@drawable/ic_speakers" />
 
         <LinearLayout
@@ -47,10 +49,10 @@
                 android:id="@+id/descriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scrollHorizontally="true"
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:padding="5dp"
+                android:scrollHorizontally="true"
                 android:text="Description"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
