@@ -2,10 +2,7 @@ package com.example.startup;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,9 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>{
@@ -40,7 +34,7 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
         Teacher currentTeacher = teachers.get(position);
         holder.nameTextView.setText(currentTeacher.getName());
         holder.descriptionTextView.setText(currentTeacher.getDescription());
-        holder.dateTextView.setText(getDateToday());
+        holder.dateTextView.setText("Starts at: " + currentTeacher.getTime());
         Picasso.with(mContext)
                 .load(currentTeacher.getImageUrl())
                 .placeholder(R.drawable.loginlogo2)
@@ -55,7 +49,7 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-            , MenuItem.OnMenuItemClickListener {
+    {
 
         public TextView nameTextView,descriptionTextView,dateTextView;
         public ImageView teacherImageView;
@@ -81,49 +75,13 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
             }
         }
 
-        /*@Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.setHeaderTitle("Select Action");
-            MenuItem showItem = menu.add( Menu.NONE, 1, 1, "Show");
-            MenuItem deleteItem = menu.add(Menu.NONE, 2, 2, "Delete");
-
-            showItem.setOnMenuItemClickListener(this);
-            deleteItem.setOnMenuItemClickListener(this);
-        }*/
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            if (mListener != null) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-
-                    switch (item.getItemId()) {
-                        case 1:
-                            mListener.onShowItemClick(position);
-                            return true;
-                        case 2:
-                            mListener.onDeleteItemClick(position);
-                            return true;
-                    }
-                }
-            }
-            return false;
-        }
     }
 
     public interface OnItemClickListener {
         void onItemClick(int position);
-        void onShowItemClick(int position);
-        void onDeleteItemClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
-    }
-    private String getDateToday(){
-        DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd");
-        Date date=new Date();
-        String today= dateFormat.format(date);
-        return today;
     }
 }

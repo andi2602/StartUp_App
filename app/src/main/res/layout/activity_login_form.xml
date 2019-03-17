@@ -24,18 +24,20 @@
         android:layout_width="260dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true">
-            <EditText
-                android:id="@+id/input_name"
-                android:layout_width="250dp"
-                android:layout_height="35dp"
-                android:ems="12"
-                android:inputType="textPersonName"
-                android:textSize="20sp"
-                android:layout_centerHorizontal="true"
-                android:hint="Your Name"
-                android:background="@drawable/roundtextbox"
-                android:drawableStart="@drawable/ic_action_name"
-                android:drawableLeft="@drawable/ic_action_name"/>
+
+        <EditText
+            android:id="@+id/input_name"
+            android:layout_width="250dp"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/roundtextbox"
+            android:drawableStart="@drawable/ic_action_name"
+            android:drawableLeft="@drawable/ic_action_name"
+            android:ems="12"
+            android:fontFamily="sans-serif"
+            android:hint="Your Name"
+            android:inputType="textPersonName"
+            android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -71,6 +73,7 @@
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:clickable="true"
+        android:focusable="true"
         android:focusableInTouchMode="true">
     <EditText
         android:id="@+id/input_password"
@@ -97,7 +100,7 @@
         android:layout_marginTop="40dp"
         android:elevation="10dp"
         android:clickable="true"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="#66FFFFFF"
         app:cardCornerRadius="25dp">
 
         <RelativeLayout

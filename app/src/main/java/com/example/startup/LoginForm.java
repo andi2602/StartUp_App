@@ -3,7 +3,6 @@ package com.example.startup;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +27,12 @@ public class LoginForm extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
     private CardView cardview;
     private CheckBox checkBox;
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +115,7 @@ public class LoginForm extends AppCompatActivity {
     }
 
     private boolean validatePassword() {
-        if (inputPassword.getText().toString().trim().length() != 9) {
+        if (inputPassword.getText().toString().trim().length() != 6) {
             inputLayoutPassword.setError(getString(R.string.err_msg_password));
             requestFocus(inputPassword);
             return false;
@@ -137,8 +142,25 @@ public class LoginForm extends AppCompatActivity {
         CheckBox checkBox = (CheckBox)view;
         if (checkBox.isChecked())
         {
-            return;
+            if (inputName.getText().toString().trim().isEmpty()) {
+                return;
+            }
+
+            if (inputEmail.getText().toString().trim().isEmpty() || !isValidEmail(inputEmail.getText().toString().trim())) {
+                return;
+            }
+
+            if (inputPassword.getText().toString().trim().length() != 6) {
+                return;
+            }
+            if (!checkBox.isChecked())
+            {
+                return;
+            }
+            cardview.setCardBackgroundColor(0xFFFFFFFF);;
         }
+        else
+            cardview.setCardBackgroundColor(0x66FFFFFF);
     }
     private class MyTextWatcher implements TextWatcher {
 
@@ -158,12 +180,84 @@ public class LoginForm extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.input_name:
                     validateName();
+                    if (inputName.getText().toString().trim().isEmpty()) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+
+                    if (inputEmail.getText().toString().trim().isEmpty() || !isValidEmail(inputEmail.getText().toString().trim())) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+
+                    if (inputPassword.getText().toString().trim().length() != 6) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                    if (!checkBox.isChecked())
+                    {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                    cardview.setCardBackgroundColor(0xFFFFFFFF);
                     break;
                 case R.id.input_email:
                     validateEmail();
+                    if (inputName.getText().toString().trim().isEmpty()) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+
+                    if (inputEmail.getText().toString().trim().isEmpty() || !isValidEmail(inputEmail.getText().toString().trim())) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+
+                    if (inputPassword.getText().toString().trim().length() != 6) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                    if (!checkBox.isChecked())
+                    {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                    cardview.setCardBackgroundColor(0xFFFFFFFF);
                     break;
                 case R.id.input_password:
                     validatePassword();
+                    if (inputName.getText().toString().trim().isEmpty()) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+
+                    if (inputEmail.getText().toString().trim().isEmpty() || !isValidEmail(inputEmail.getText().toString().trim())) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+
+                    if (inputPassword.getText().toString().trim().length() != 6) {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                    if (!checkBox.isChecked())
+                    {
+                        return;
+                    }
+                    else
+                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                    cardview.setCardBackgroundColor(0xFFFFFFFF);
                     break;
             }
         }
@@ -183,18 +277,18 @@ public class LoginForm extends AppCompatActivity {
             .setOnLongClickListener(new Link.OnLongClickListener() {
                 @Override
                 public void onLongClick(String clickedText) {
-                    openLink("https://www.facebook.com/");
+                    openLink();
                 }
             })
             .setOnClickListener(new Link.OnClickListener() {
                 @Override
                 public void onClick(String clickedText) {
                     // single clicked
-                    openLink("https://www.facebook.com/");
+                    openLink();
                 }
             });
 
-    private void openLink(String link) {
+    private void openLink() {
         startActivity(new Intent(LoginForm.this,Terms.class));
     }
 }

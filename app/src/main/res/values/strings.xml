@@ -5,7 +5,7 @@
     <string name="Speakers">EVENT SPEAKERS</string>
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_email">Enter valid email address</string>
-    <string name="err_msg_password">Ticket number is 9 symbols</string>
+    <string name="err_msg_password">Ticket number is 6 symbols</string>
     <string name="Workshops">WORKSHOPS</string>
     <string name="Email">Email </string>
     <string name="Privacy"> I agree with the terms</string>

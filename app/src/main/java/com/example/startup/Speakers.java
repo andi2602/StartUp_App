@@ -1,7 +1,6 @@
 package com.example.startup;
 
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,14 +14,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.Toast;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +37,7 @@ public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnIte
         intent.putExtra("NAME_KEY", data[0]);
         intent.putExtra("DESCRIPTION_KEY", data[1]);
         intent.putExtra("IMAGE_KEY", data[2]);
+        intent.putExtra("TIME_KEY", data[3]);
         startActivity(intent);
     }
 
@@ -88,32 +86,10 @@ public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnIte
 
     public void onItemClick(int position) {
         Teacher clickedTeacher = mTeachers.get(position);
-        String[] teacherData = {clickedTeacher.getName(), clickedTeacher.getDescription(), clickedTeacher.getImageUrl()};
+        String[] teacherData = {clickedTeacher.getName(), clickedTeacher.getDescription(), clickedTeacher.getImageUrl(),clickedTeacher.getTime()};
         openDetailActivity(teacherData);
     }
 
-    @Override
-    public void onShowItemClick(int position) {
-        Teacher clickedTeacher = mTeachers.get(position);
-        String[] teacherData = {clickedTeacher.getName(), clickedTeacher.getDescription(), clickedTeacher.getImageUrl()};
-        openDetailActivity(teacherData);
-    }
-
-    @Override
-    public void onDeleteItemClick(int position) {
-        Teacher selectedItem = mTeachers.get(position);
-        final String selectedKey = selectedItem.getKey();
-
-        StorageReference imageRef = mStorage.getReferenceFromUrl(selectedItem.getImageUrl());
-        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                mDatabaseRef.child(selectedKey).removeValue();
-                Toast.makeText(Speakers.this, "Item deleted", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -147,7 +123,7 @@ public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnIte
 
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setTitle("No Internet Connection");
-        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Exit");
+        builder.setMessage("You need to have Mobile Data or Wi-Fi to access this. Press Ok to Exit");
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 

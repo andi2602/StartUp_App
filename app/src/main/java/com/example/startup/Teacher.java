@@ -7,6 +7,7 @@ public class Teacher {
     private String imageURL;
     private String key;
     private String description;
+    private String time;
     private int position;
 
     public Teacher() {
@@ -15,13 +16,14 @@ public class Teacher {
     public Teacher (int position){
         this.position = position;
     }
-    public Teacher(String name, String imageUrl ,String Des) {
+    public Teacher(String name, String imageUrl ,String Des, String Time) {
         if (name.trim().equals("")) {
             name = "No Name";
         }
         this.name = name;
         this.imageURL = imageUrl;
         this.description = Des;
+        this.time = Time;
     }
     public String getDescription() {
         return description;
@@ -29,6 +31,13 @@ public class Teacher {
     public void setDescription(String description) {
         this.description = description;
     }
+    public String getTime() {
+        return time;
+    }
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 
     public String getName() {
         return name;
