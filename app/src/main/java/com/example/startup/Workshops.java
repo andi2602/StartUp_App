@@ -1,7 +1,12 @@
 package com.example.startup;
 
+import android.app.AlertDialog;
 import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,16 +36,20 @@ public class Workshops extends AppCompatActivity implements RecyclerAdapterWorks
     private List<Workshops_class> mWorkshops;
 
     private void openDetailActivity(String[] data) {
-        Intent intent = new Intent(this, SpeakersInformation.class);
+        Intent intent = new Intent(this, WorkshopInformation.class);
         intent.putExtra("NAME_KEY", data[0]);
         intent.putExtra("DESCRIPTION_KEY", data[1]);
         intent.putExtra("IMAGE_KEY", data[2]);
+        intent.putExtra("TIME_KEY",data[3]);
         startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isNetworkAvailable())
+        {buildDialog(Workshops.this).show(); }
+        else{
         setContentView(R.layout.activity_workshops);
 
         mRecyclerView = findViewById(R.id.mRecyclerView);
@@ -74,11 +83,11 @@ public class Workshops extends AppCompatActivity implements RecyclerAdapterWorks
             }
         });
 
-    }
+    }}
 
     public void onItemClick(int position) {
         Workshops_class clickedWorkshop = mWorkshops.get(position);
-        String[] workshopData = {clickedWorkshop.getTopic(), clickedWorkshop.getFacilitator(), clickedWorkshop.getCompany(),clickedWorkshop.getTime(),clickedWorkshop.getCurrentlyEnrolled(),clickedWorkshop.getCapacityOfWorkshop()};
+        String[] workshopData = {clickedWorkshop.getImageUrl(),clickedWorkshop.getTopic(), clickedWorkshop.getFacilitator(), clickedWorkshop.getCompany(),clickedWorkshop.getTime(),clickedWorkshop.getCurrentlyEnrolled(),clickedWorkshop.getCapacityOfWorkshop()};
         openDetailActivity(workshopData);
     }
 
@@ -107,6 +116,30 @@ public class Workshops extends AppCompatActivity implements RecyclerAdapterWorks
     }
     protected void onDestroy() {
         super.onDestroy();
-        mDatabaseRef.removeEventListener(mDBListener);
+        if (null != mDatabaseRef)
+            mDatabaseRef.removeEventListener(mDBListener);
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+    public AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or Wi-Fi to access this activity. Press OK to Exit");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                finish();
+            }
+        });
+
+        return builder;
     }
 }

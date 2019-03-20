@@ -19,7 +19,6 @@ public class Main2Activity extends AppCompatActivity {
     private Button ScheduleButton;
     private DatabaseReference mDatabaseRef;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +59,6 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
     }
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }*/
     public void openAbout()
     {
         Intent intent = new Intent(this,About.class);

@@ -53,5 +53,4 @@ public class SpeakersInformation extends AppCompatActivity {
                 .into(teacherDetailImageView);
 
     }
-
 }

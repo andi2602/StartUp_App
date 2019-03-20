@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".About"/>
+    tools:context=".About">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/colibri_light"
+        android:lineSpacingExtra="8sp"
+        android:padding="20dp"
+        android:text="Something entrepreneurial this way comes! For quite some time, StartUP@Blagoevgrad has been brewing a special surprise for you. Join us on April 6th in the ABF Theater Hall for the plunge into the world of innovation and creation that is our StartUP Conference 2019. This time around, our conference has a unifying theme: SUSTAINABILITY. Through engaging lectures and inspiring workshops, we will lead you down the path to success and we will show you that all it takes to make your boldest ideas come true is to"
+        android:textSize="20sp">
+
+    </TextView>
+</RelativeLayout>

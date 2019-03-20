@@ -123,7 +123,7 @@ public class Speakers extends AppCompatActivity implements RecyclerAdapter.OnIte
 
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setTitle("No Internet Connection");
-        builder.setMessage("You need to have Mobile Data or Wi-Fi to access this. Press Ok to Exit");
+        builder.setMessage("You need to have Mobile Data or Wi-Fi to access this activity. Press OK to Exit");
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 

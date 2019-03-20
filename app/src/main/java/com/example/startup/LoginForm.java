@@ -1,8 +1,15 @@
 package com.example.startup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +25,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.klinker.android.link_builder.Link;
 import com.klinker.android.link_builder.LinkBuilder;
 
@@ -27,6 +46,8 @@ public class LoginForm extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
     private CardView cardview;
     private CheckBox checkBox;
+    private DatabaseReference mDatabaseRef;
+    private FirebaseAuth mAuth;
     @Override
     public void onResume()
     {
@@ -34,8 +55,19 @@ public class LoginForm extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
     @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isNetworkAvailable())
+        {buildDialog(LoginForm.this).show(); }
+        else{
         setContentView(R.layout.activity_login_form);
         inputLayoutName = findViewById(R.id.input_layout_name);
         inputLayoutEmail = findViewById(R.id.input_layout_email);
@@ -45,12 +77,13 @@ public class LoginForm extends AppCompatActivity {
         inputPassword = findViewById(R.id.input_password);
         cardview = findViewById(R.id.cardView);
         checkBox = findViewById(R.id.privacy);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
 
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
-
 
         cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +97,7 @@ public class LoginForm extends AppCompatActivity {
         LinkBuilder.on(demoText)
                 .addLink(link)
                 .build(); // create the clickable links
-    }
+    }}
     private void submitForm() {
         if (!validateName()) {
             return;
@@ -77,15 +110,74 @@ public class LoginForm extends AppCompatActivity {
         if (!validatePassword()) {
             return;
         }
-        if (!checkBox.isChecked())
-        {
+        if (!checkBox.isChecked()) {
             return;
         }
+        mDatabaseRef.child("Keys").orderByChild("key").equalTo(inputPassword.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        mAuth.createUserWithEmailAndPassword(inputEmail.getText().toString().trim(), inputPassword.getText().toString().trim())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            Users user = new Users(inputName.getText().toString().trim(), inputEmail.getText().toString().trim(), inputPassword.getText().toString().trim());
+                                            FirebaseDatabase.getInstance().getReference("Users")
+                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .setValue(user);
 
-        Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LoginForm.this, Workshops.class);
-        startActivity(intent);
+                                            Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(LoginForm.this, Workshops.class);
+                                            startActivity(intent);
+
+
+                                            mDatabaseRef.child("Keys").orderByChild("key").equalTo(inputPassword.getText().toString().trim()).addChildEventListener(new ChildEventListener() {
+                                                @Override
+                                                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                                    mDatabaseRef.child("Keys").child(dataSnapshot.getKey()).setValue(null);
+                                                }
+
+                                                @Override
+                                                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                                }
+
+                                                @Override
+                                                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                                                }
+
+                                                @Override
+                                                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Invalid ticket number", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Invalid ticket number", Toast.LENGTH_SHORT).show();
+                    }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
+
+
     private boolean validateName() {
         if (inputName.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_name));
@@ -287,8 +379,36 @@ public class LoginForm extends AppCompatActivity {
                     openLink();
                 }
             });
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+    public AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or Wi-Fi to access this activity. Press OK to Exit");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                finish();
+            }
+        });
+
+        return builder;
+    }
 
     private void openLink() {
         startActivity(new Intent(LoginForm.this,Terms.class));
+    }
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            startActivity(new Intent(LoginForm.this,Workshops.class));
+        }
     }
 }

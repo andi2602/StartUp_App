@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,6 +39,12 @@ public class RecyclerAdapterWorkshops extends RecyclerView.Adapter<RecyclerAdapt
         holder.timeTextView.setText(currentWorkshop.getTime());
         holder.currentlyEnrolledTextView.setText(currentWorkshop.getCurrentlyEnrolled());
         holder.capacityOfWorkshopTextView.setText(currentWorkshop.getCapacityOfWorkshop());
+        Picasso.with(mContext)
+                .load(currentWorkshop.getImageUrl())
+                .placeholder(R.drawable.loginlogo2)
+                .fit()
+                .centerCrop()
+                .into(holder.workshopImageView);
         //
     }
 
@@ -47,6 +56,7 @@ public class RecyclerAdapterWorkshops extends RecyclerView.Adapter<RecyclerAdapt
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView topicTextView,facilitatorTextView,companyTextView,timeTextView,currentlyEnrolledTextView,capacityOfWorkshopTextView;
+        public ImageView workshopImageView;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
@@ -56,6 +66,7 @@ public class RecyclerAdapterWorkshops extends RecyclerView.Adapter<RecyclerAdapt
             timeTextView = itemView.findViewById(R.id.timeTextView);
             currentlyEnrolledTextView = itemView.findViewById(R.id.currentlyEnrolledTextView);
             capacityOfWorkshopTextView = itemView.findViewById(R.id.capacityOfWorkshopTextView);
+            workshopImageView = itemView.findViewById(R.id.workshopImageView);
 
             itemView.setOnClickListener(this);
         }

@@ -11,6 +11,7 @@ public class Workshops_class {
         private String currentlyEnrolled;//mitko
         private String capacityOfWorkshop;
         private String key;
+        private String imageURL;
         private int position;
 
         public Workshops_class() {
@@ -19,7 +20,8 @@ public class Workshops_class {
         public Workshops_class (int position){
             this.position = position;
         }
-        public Workshops_class(String topic, String facilitator ,String company,String time,String currentlyEnrolled,String capacityOfWorkshop) {
+        public Workshops_class(String imageURL,String topic, String facilitator ,String company,String time,String currentlyEnrolled,String capacityOfWorkshop) {
+            this.imageURL = imageURL;
             this.topic = topic;
             this.facilitator = facilitator;
             this.company = company;
@@ -59,7 +61,12 @@ public class Workshops_class {
         {
             this.capacityOfWorkshop = capacityOfWorkshop;
         }
-
+        public String getImageUrl() {
+        return imageURL;
+    }
+        public void setImageUrl(String imageUrl) {
+        this.imageURL = imageUrl;
+    }
 
         @Exclude
         public String getKey() {
