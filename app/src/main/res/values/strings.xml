@@ -8,5 +8,6 @@
     <string name="err_msg_password">Ticket number is 6 symbols</string>
     <string name="Workshops">WORKSHOPS</string>
     <string name="Email">Email </string>
-    <string name="Privacy"> I agree with the terms</string>
+    <string name="Privacy"> I agree with the Policy</string>
+    <string name="Register"> Register </string>
 </resources>

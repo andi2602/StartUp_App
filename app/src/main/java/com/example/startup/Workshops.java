@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,15 +36,6 @@ public class Workshops extends AppCompatActivity implements RecyclerAdapterWorks
     private DatabaseReference mDatabaseRef;
     private ValueEventListener mDBListener;
     private List<Workshops_class> mWorkshops;
-
-    private void openDetailActivity(String[] data) {
-        Intent intent = new Intent(this, WorkshopInformation.class);
-        intent.putExtra("NAME_KEY", data[0]);
-        intent.putExtra("DESCRIPTION_KEY", data[1]);
-        intent.putExtra("IMAGE_KEY", data[2]);
-        intent.putExtra("TIME_KEY",data[3]);
-        startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +80,16 @@ public class Workshops extends AppCompatActivity implements RecyclerAdapterWorks
 
     public void onItemClick(int position) {
         Workshops_class clickedWorkshop = mWorkshops.get(position);
-        String[] workshopData = {clickedWorkshop.getImageUrl(),clickedWorkshop.getTopic(), clickedWorkshop.getFacilitator(), clickedWorkshop.getCompany(),clickedWorkshop.getTime(),clickedWorkshop.getCurrentlyEnrolled(),clickedWorkshop.getCapacityOfWorkshop()};
-        openDetailActivity(workshopData);
+        String[] workshopData = {clickedWorkshop.getImageUrl(),clickedWorkshop.getTopic(), clickedWorkshop.getFacilitator(),clickedWorkshop.getTime(),clickedWorkshop.getCurrentlyEnrolled(),clickedWorkshop.getCapacityOfWorkshop()};
+        Intent intent = new Intent(this, WorkshopInformation.class);
+        intent.putExtra("IMAGE_KEY", workshopData[0]);
+        intent.putExtra("TOPIC_KEY", workshopData[1]);
+        intent.putExtra("FACILITATOR_KEY", workshopData[2]);
+        intent.putExtra("TIME_KEY",workshopData[3]);
+        intent.putExtra("ENROLLED_KEY",workshopData[4]);
+        intent.putExtra("CAPACITY_KEY",workshopData[5]);
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 
     @Override

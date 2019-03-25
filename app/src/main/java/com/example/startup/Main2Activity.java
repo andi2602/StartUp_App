@@ -31,7 +31,7 @@ public class Main2Activity extends AppCompatActivity {
         ScheduleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main2Activity.this, Workshops.class);
+                Intent i = new Intent(Main2Activity.this, Schedule.class);
                 startActivity(i);
             }
         });

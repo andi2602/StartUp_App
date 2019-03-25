@@ -8,6 +8,37 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:599475965166:android:32e6b0f16d1bbfca",
+        "android_client_info": {
+          "package_name": "com.bapplabs.Startup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599475965166-mukp5ct7scu0fbbina9ccpfhgncs6qgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgumthT9LQKSICQyNumeDQNlMfr1N1nSQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:599475965166:android:cdddbf119b9224b8",
         "android_client_info": {
           "package_name": "com.example.startup"
@@ -42,8 +73,77 @@
             {
               "client_id": "599475965166-mukp5ct7scu0fbbina9ccpfhgncs6qgt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "599475965166-i938fslltols4l0bcm8pk9bvhhvurh4n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.startUpAUBG"
+              }
             }
           ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599475965166:android:0d5bc0a799d30cc8",
+        "android_client_info": {
+          "package_name": "fdg.sef.gr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599475965166-mukp5ct7scu0fbbina9ccpfhgncs6qgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgumthT9LQKSICQyNumeDQNlMfr1N1nSQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599475965166:android:ee76e1406cce313d",
+        "android_client_info": {
+          "package_name": "info.camposha.firebaserecyclerimagesuploaddownload.View"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599475965166-mukp5ct7scu0fbbina9ccpfhgncs6qgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgumthT9LQKSICQyNumeDQNlMfr1N1nSQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

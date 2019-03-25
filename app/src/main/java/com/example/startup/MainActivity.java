@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        videoView = (VideoView)findViewById(R.id.videoView2);
+        videoView = findViewById(R.id.videoView2);
 
         Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.splashscreen);
 

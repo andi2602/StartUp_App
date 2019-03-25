@@ -11,6 +11,10 @@ public class Users {
     private String key;
 
     public Users(){}
+    public Users (String name)
+    {
+        this.name = name;
+    }
 
     public Users(String name, String email, String ticketCode) {
         this.name = name;

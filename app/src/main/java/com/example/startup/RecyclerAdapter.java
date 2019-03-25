@@ -62,7 +62,6 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
             teacherImageView = itemView.findViewById(R.id.teacherImageView);
 
             itemView.setOnClickListener(this);
-            /*itemView.setOnCreateContextMenuListener(this);*/
         }
 
         @Override

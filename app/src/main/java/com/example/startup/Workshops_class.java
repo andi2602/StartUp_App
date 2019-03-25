@@ -6,12 +6,12 @@ public class Workshops_class {
 
         private String topic;
         private String facilitator;
-        private String company;
         private String time;
         private String currentlyEnrolled;//mitko
         private String capacityOfWorkshop;
         private String key;
         private String imageURL;
+        private String description;
         private int position;
 
         public Workshops_class() {
@@ -20,14 +20,22 @@ public class Workshops_class {
         public Workshops_class (int position){
             this.position = position;
         }
-        public Workshops_class(String imageURL,String topic, String facilitator ,String company,String time,String currentlyEnrolled,String capacityOfWorkshop) {
+        public Workshops_class(String imageURL,String topic, String facilitator ,String time,String currentlyEnrolled,String capacityOfWorkshop) {
             this.imageURL = imageURL;
             this.topic = topic;
             this.facilitator = facilitator;
-            this.company = company;
             this.time = time;
             this.currentlyEnrolled = currentlyEnrolled;
             this.capacityOfWorkshop = capacityOfWorkshop;
+        }
+        public Workshops_class(String imageURL,String topic, String facilitator ,String time,String currentlyEnrolled,String capacityOfWorkshop,String description){
+            this.imageURL = imageURL;
+            this.topic = topic;
+            this.facilitator = facilitator;
+            this.time = time;
+            this.currentlyEnrolled = currentlyEnrolled;
+            this.capacityOfWorkshop = capacityOfWorkshop;
+            this.description = description;
         }
         public String getTopic() {
             return topic;
@@ -41,17 +49,21 @@ public class Workshops_class {
         {
             this.facilitator = facilitator;
         }
-        public String getCompany() {return company;}
-        public void setCompany(String company)
-        {
-            this.company = company;
-        }
         public String getTime() {return time;}
         public void setTime(String time)
         {
             this.time = time;
         }
         public String getCurrentlyEnrolled() {return currentlyEnrolled;}
+
+        public String getDescription() {
+        return description;
+        }
+
+        public void setDescription(String description) {
+        this.description = description;
+        }
+
         public void setCurrentlyEnrolled(String currentlyEnrolled)
         {
             this.currentlyEnrolled = currentlyEnrolled;

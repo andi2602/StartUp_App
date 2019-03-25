@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -42,6 +43,7 @@ import com.klinker.android.link_builder.LinkBuilder;
 
 public class LoginForm extends AppCompatActivity {
 
+    private TextView register;
     private EditText inputName, inputEmail, inputPassword;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
     private CardView cardview;
@@ -77,6 +79,7 @@ public class LoginForm extends AppCompatActivity {
         inputPassword = findViewById(R.id.input_password);
         cardview = findViewById(R.id.cardView);
         checkBox = findViewById(R.id.privacy);
+        register = findViewById(R.id.register);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
@@ -113,7 +116,7 @@ public class LoginForm extends AppCompatActivity {
         if (!checkBox.isChecked()) {
             return;
         }
-        mDatabaseRef.child("Keys").orderByChild("key").equalTo(inputPassword.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.child("Keys").orderByChild("key").equalTo(inputPassword.getText().toString().trim()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -130,6 +133,7 @@ public class LoginForm extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(LoginForm.this, Workshops.class);
                                             startActivity(intent);
+                                            finish();
 
 
                                             mDatabaseRef.child("Keys").orderByChild("key").equalTo(inputPassword.getText().toString().trim()).addChildEventListener(new ChildEventListener() {
@@ -165,7 +169,7 @@ public class LoginForm extends AppCompatActivity {
                                     }
                                 });
                     } else {
-                        Toast.makeText(getApplicationContext(), "Invalid ticket number", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Invalid ticket number or email", Toast.LENGTH_SHORT).show();
                     }
 
             }
@@ -176,8 +180,6 @@ public class LoginForm extends AppCompatActivity {
             }
         });
     }
-
-
     private boolean validateName() {
         if (inputName.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_name));
@@ -235,6 +237,7 @@ public class LoginForm extends AppCompatActivity {
         if (checkBox.isChecked())
         {
             if (inputName.getText().toString().trim().isEmpty()) {
+                cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                 return;
             }
 
@@ -249,10 +252,10 @@ public class LoginForm extends AppCompatActivity {
             {
                 return;
             }
-            cardview.setCardBackgroundColor(0xFFFFFFFF);;
+            cardview.setCardBackgroundColor(0xFFFFFFFF);
         }
         else
-            cardview.setCardBackgroundColor(0x66FFFFFF);
+            cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
     }
     private class MyTextWatcher implements TextWatcher {
 
@@ -266,92 +269,96 @@ public class LoginForm extends AppCompatActivity {
         }
 
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
                 case R.id.input_name:
                     validateName();
                     if (inputName.getText().toString().trim().isEmpty()) {
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
 
                     if (inputEmail.getText().toString().trim().isEmpty() || !isValidEmail(inputEmail.getText().toString().trim())) {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
 
                     if (inputPassword.getText().toString().trim().length() != 6) {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                     if (!checkBox.isChecked())
                     {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                     cardview.setCardBackgroundColor(0xFFFFFFFF);
                     break;
                 case R.id.input_email:
                     validateEmail();
                     if (inputName.getText().toString().trim().isEmpty()) {
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
 
                     if (inputEmail.getText().toString().trim().isEmpty() || !isValidEmail(inputEmail.getText().toString().trim())) {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
 
                     if (inputPassword.getText().toString().trim().length() != 6) {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                     if (!checkBox.isChecked())
                     {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                     cardview.setCardBackgroundColor(0xFFFFFFFF);
                     break;
                 case R.id.input_password:
                     validatePassword();
                     if (inputName.getText().toString().trim().isEmpty()) {
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
 
                     if (inputEmail.getText().toString().trim().isEmpty() || !isValidEmail(inputEmail.getText().toString().trim())) {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
 
                     if (inputPassword.getText().toString().trim().length() != 6) {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                     if (!checkBox.isChecked())
                     {
                         return;
                     }
                     else
-                        cardview.setCardBackgroundColor(0x66FFFFFF);
+                        cardview.setCardBackgroundColor(Color.parseColor("#CE95A5"));
                     cardview.setCardBackgroundColor(0xFFFFFFFF);
                     break;
             }
+        }
+
+        public void afterTextChanged(Editable editable) {
+
         }
     }
     public void hideKeyboard(View view) {
@@ -360,7 +367,7 @@ public class LoginForm extends AppCompatActivity {
     }
     // Create the link rule to set what text should be linked.
 // can use a specific string or a regex pattern
-    Link link = new Link("terms")
+    Link link = new Link("Policy")
             .setTextColor(Color.parseColor("#79FCEF"))                  // optional, defaults to holo blue
             .setTextColorOfHighlightedLink(Color.parseColor("#0D3D0C")) // optional, defaults to holo blue
             .setHighlightAlpha(.4f)                                     // optional, defaults to .15f
@@ -409,6 +416,7 @@ public class LoginForm extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             startActivity(new Intent(LoginForm.this,Workshops.class));
+            finish();
         }
     }
 }
